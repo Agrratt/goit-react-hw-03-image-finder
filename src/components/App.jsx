@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ToastContainer } from 'react-toastify';
+import { animateScroll as scroll } from 'react-scroll';
 import {fetchApi} from 'services/api';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
@@ -21,11 +22,8 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, { page, searchQuery }) {
     if (searchQuery !== this.state.searchQuery || page !== this.state.page) {
-      this.setState({satus: 'pending'})
-      if (page === 1) {
-        this.setState({ images: [] })
-      }
-      this.getFetchImages();
+      
+      return this.getFetchImages(page, searchQuery);
     }
   };
 
@@ -49,17 +47,26 @@ export class App extends Component {
     if (this.state.searchQuery !== newQuery) {
       this.setState({
       searchQuery: newQuery,
-      page: 1,
+        page: 1,
+      images: []
     });
     }  
   };
 
   loadMore = () => {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {
         ...prevState,
         page: prevState.page + 1,
       };
+    });
+    this.scrollWindow();
+  };
+
+  scrollWindow = () => {
+    scroll.scrollToBottom({
+      offset: 100,
+      smooth: true,
     });
   };
 
