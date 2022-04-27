@@ -20,8 +20,12 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, { page, searchQuery }) {
-  if (searchQuery !== this.state.searchQuery || page !== this.state.page) {
-      return this.getFetchImages(page, searchQuery);
+    if (searchQuery !== this.state.searchQuery || page !== this.state.page) {
+      this.setState({satus: 'pending'})
+      if (page === 1) {
+        this.setState({ images: [] })
+      }
+      this.getFetchImages();
     }
   };
 
@@ -53,6 +57,7 @@ export class App extends Component {
   loadMore = () => {
     this.setState((prevState) => {
       return {
+        ...prevState,
         page: prevState.page + 1,
       };
     });
