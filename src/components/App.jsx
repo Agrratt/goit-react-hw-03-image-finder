@@ -87,7 +87,7 @@ export class App extends Component {
     return (
       <Container>
         <Searchbar onSubmit={this.handleSerchSubmit} />
-        {status === 'resolved' && <ImageGallery images={images} onClickImage={this.toggleModal} openModalImg={this.openModalImg} />}
+        {images.length > 0 && <ImageGallery images={images} onClickImage={this.toggleModal} openModalImg={this.openModalImg} />}
         {status === 'rejected' && <h1>{searchQuery}{this.state.error.message }</h1>}
         {status === 'pending' && <Loader />}
         {images.length > 0 && <Button loadMore={ this.loadMore}/>}
